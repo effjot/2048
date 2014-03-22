@@ -17,6 +17,21 @@ Grid.prototype.build = function () {
   }
 };
 
+// Make a copy of the grid
+Grid.prototype.copy = function() {
+    var copy = new Grid(this.size);
+
+    for (var x = 0; x < copy.size; x++) {
+         for (var y = 0; y < copy.size; y++) {
+             if (this.cells[x][y]) {
+                 copy.cells[x][y] = this.cells[x][y].copy();
+             }
+        }
+    }
+
+    return copy;
+}
+
 // Find the first available random position
 Grid.prototype.randomAvailableCell = function () {
   var cells = this.availableCells();
