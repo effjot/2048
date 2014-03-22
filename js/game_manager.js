@@ -116,6 +116,8 @@ GameManager.prototype.move = function (direction) {
 
   // Store state for undo
   this.prevgrid = this.grid.copy();
+  this.prevscore = this.score;
+  this.prevbestscore = this.scoreManager.get();
 
   // Save the current tile positions and remove merger information
   this.prepareTiles();
@@ -251,6 +253,8 @@ GameManager.prototype.positionsEqual = function (first, second) {
 
 GameManager.prototype.undo = function() {
     this.grid = this.prevgrid;
+    this.score = this.prevscore;
+    this.scoreManager.set(this.prevbestscore);
     this.prepareTiles();
     this.actuate();
 }
