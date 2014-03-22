@@ -7,6 +7,7 @@ function GameManager(size, InputManager, Actuator, ScoreManager) {
   this.startTiles   = 2;
 
   this.inputManager.on("move", this.move.bind(this));
+  this.inputManager.on("undo", this.undo.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
@@ -36,6 +37,7 @@ GameManager.prototype.isGameTerminated = function () {
 // Set up the game
 GameManager.prototype.setup = function () {
   this.grid        = new Grid(this.size);
+  this.prevgrid    = this.grid;
 
   this.score       = 0;
   this.over        = false;
@@ -111,6 +113,9 @@ GameManager.prototype.move = function (direction) {
   var vector     = this.getVector(direction);
   var traversals = this.buildTraversals(vector);
   var moved      = false;
+
+  // Store state for undo
+  this.prevgrid = this.grid.copy();
 
   // Save the current tile positions and remove merger information
   this.prepareTiles();
@@ -243,3 +248,9 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
+
+GameManager.prototype.undo = function() {
+    this.grid = this.prevgrid;
+    this.prepareTiles();
+    this.actuate();
+}

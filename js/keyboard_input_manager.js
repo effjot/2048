@@ -60,7 +60,10 @@ KeyboardInputManager.prototype.listen = function () {
         self.emit("move", mapped);
       }
 
+      if (event.which === 90) self.undo.bind(self)(event); // Z key for undo
+
       if (event.which === 32) self.restart.bind(self)(event);
+
     }
   });
 
@@ -127,4 +130,9 @@ KeyboardInputManager.prototype.restart = function (event) {
 KeyboardInputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
   this.emit("keepPlaying");
+};
+
+KeyboardInputManager.prototype.undo = function (event) {
+  event.preventDefault();
+  this.emit("undo");
 };
