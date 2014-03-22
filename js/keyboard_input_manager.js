@@ -67,6 +67,10 @@ KeyboardInputManager.prototype.listen = function () {
     }
   });
 
+  var undo = document.querySelector(".undo-button");
+  undo.addEventListener("click", this.undo.bind(this));
+  undo.addEventListener("touchend", this.undo.bind(this));
+
   var retry = document.querySelector(".retry-button");
   retry.addEventListener("click", this.restart.bind(this));
   retry.addEventListener(this.eventTouchend, this.restart.bind(this));
